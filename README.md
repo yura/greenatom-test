@@ -7,7 +7,7 @@
 1. (Опционально) Запуск контейнера с БД, если база не настроена
 
 ```sh
-docker run -it --rm -p 5432:5432/tcp -v "pgdata:/var/lib/postgresql/data" -e POSTGRES_USER=greenatom -e POSTGRES_PASSWORD=greenatom123 -e POSTGRES_DB=greenatom postgres:15
+docker run -it --name db --rm -p 5432:5432/tcp -v "pgdata:/var/lib/postgresql/data" -e POSTGRES_USER=greenatom -e POSTGRES_PASSWORD=greenatom123 -e POSTGRES_DB=greenatom postgres:15
 ```
 
 2. Сборка контейнера с приложением
@@ -17,7 +17,23 @@ docker build -t greenatom-img .
 
 3. Запуск контейнера с приложением
 ```sh
-docker run -it --rm -p 3000:3000/tcp -e "RAILS_DB_HOST=172.17.0.2" -e "RAILS_DB_NAME=greenatom" -e "RAILS_DB_USER=greenatom" -e "RAILS_DB_PASS=greenatom123" greenatom-img
+docker run -it --rm -p 3000:3000/tcp -e "RAILS_DB_HOST=db" -e "RAILS_DB_NAME=greenatom" -e "RAILS_DB_USER=greenatom" -e "RAILS_DB_PASS=greenatom123" greenatom-img
+```
+
+Создание БД в запущенном контейнере:
+
+```sh
+rails db:create db:migrate
+
+```
+
+## Docker Compose
+
+```sh
+docker-compose up
+
+# для нового приложения необходимо создать базу и накактить миграционные процедуры
+docker-compose exec app rails db:create db:migrate
 ```
 
 ## Использование

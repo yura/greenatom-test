@@ -2,6 +2,7 @@ FROM ruby:3.2.2
 
 ADD . /app
 WORKDIR /app
-RUN bundle i
+RUN bundle install
 
-ENTRYPOINT rails db:create db:migrate && rails server -b 0.0.0.0
+CMD ["/bin/bash"]
+
