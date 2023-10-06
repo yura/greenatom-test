@@ -17,11 +17,11 @@ RSpec.describe "/users", type: :request do
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    attributes_for(:user)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { name: nil }
   }
 
   # This should return the minimal set of values that should be in the headers
@@ -85,15 +85,16 @@ RSpec.describe "/users", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        attributes_for(:user)
       }
 
       it "updates the requested user" do
         user = User.create! valid_attributes
+        old_name = user.name
         patch user_url(user),
               params: { user: new_attributes }, headers: valid_headers, as: :json
         user.reload
-        skip("Add assertions for updated state")
+        expect(user.name).not_to eq(old_name)
       end
 
       it "renders a JSON response with the user" do
@@ -110,6 +111,7 @@ RSpec.describe "/users", type: :request do
         user = User.create! valid_attributes
         patch user_url(user),
               params: { user: invalid_attributes }, headers: valid_headers, as: :json
+
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
