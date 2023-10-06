@@ -1,24 +1,31 @@
-# README
+# greenatom-test
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Docker
 
-Things you may want to cover:
+### Сборка и запуск
 
-* Ruby version
+1. (Опционально) Запуск контейнера с БД, если база не настроена
 
-* System dependencies
+```sh
+docker run -it --rm -p 5432:5432/tcp -v "pgdata:/var/lib/postgresql/data" -e POSTGRES_USER=greenatom -e POSTGRES_PASSWORD=greenatom123 -e POSTGRES_DB=greenatom postgres:15
+```
 
-* Configuration
+2. Сборка контейнера с приложением
+```sh
+docker build -t greenatom-img .
+```
 
-* Database creation
+3. Запуск контейнера с приложением
+```sh
+docker run -it --rm -p 3000:3000/tcp -e "RAILS_DB_HOST=172.17.0.2" -e "RAILS_DB_NAME=greenatom" -e "RAILS_DB_USER=greenatom" -e "RAILS_DB_PASS=greenatom123" greenatom-img
+```
 
-* Database initialization
+## Использование
 
-* How to run the test suite
+```sh
+# Создание пользователя
+curl -X POST -H 'Content-Type: application/json' -d '{"name":"James Bond","email":"007@mail.ru"}' 'http://localhost:3000/users'
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Список пользователей
+curl -H 'Content-Type: application/json' 'http://localhost:3000/users'
+```

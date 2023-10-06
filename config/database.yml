@@ -19,14 +19,14 @@ default: &default
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: localhost
-  username: greenatom
-  password: greenatom123
+  pool:     <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host:     <%= ENV.fetch("RAILS_DB_HOST") { 'localhost' } %>
+  username: <%= ENV.fetch("RAILS_DB_USER") { 'greenatom' } %>
+  password: <%= ENV.fetch("RAILS_DB_PASS") { 'greenatom123' } %>
 
 development:
   <<: *default
-  database: greenatom
+  database: <%= ENV.fetch("RAILS_DB_NAME") { 'greenatom' } %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -84,4 +84,4 @@ test:
 #
 production:
   <<: *default
-  username: greenatom_test
+  database: <%= ENV.fetch("RAILS_DB_NAME") { 'greenatom' } %>
