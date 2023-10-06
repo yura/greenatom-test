@@ -8,18 +8,18 @@ services:
     tty: true
     build: .
     stdin_open: true
-    command: "rails s -b 0.0.0.0"
+    command: bundle exec rails s -b 0.0.0.0
     ports:
       - 3000:3000
     volumes:
       - .:/app
-    environment:
-      RAILS_DB_HOST: db
-      RAILS_DB_NAME: greenatom
-      RAILS_DB_USER: greenatom
-      RAILS_DB_PASS: greenatom123
     depends_on:
       - db
+    environment:
+      - RAILS_DB_NAME=greenatom
+      - RAILS_DB_USER=greenatom
+      - RAILS_DB_PASS=greenatom123
+      - RAILS_DB_HOST=db
 
   db:
     image: postgres:15
@@ -28,6 +28,6 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: greenatom
-      POSTGRES_USER: greenatom
-      POSTGRES_PASSWORD: greenatom123
+      POSTGRES_USER: ${DB_USERNAME:-greenatom}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-greenatom123}
+      POSTGRES_DB: ${DB_DATABASE:-greenatom}
