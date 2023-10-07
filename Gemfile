@@ -21,6 +21,11 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'rspec-rails', '~> 6.0.0'
+
+  # security
+  gem 'brakeman'
+  gem 'bundler-audit'
+  gem 'ruby_audit'
 end
 
 group :test do
