@@ -12,7 +12,7 @@ docker-compose exec app rails db:migrate
 
 ```sh
 docker-compose exec app rails db:test:prepare
-docker-compose exec rspec
+docker-compose exec app rspec
 ```
 
 ## Использование
