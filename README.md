@@ -11,7 +11,7 @@ docker-compose exec app rails db:migrate
 ### Тестирование
 
 ```sh
-docker-compose exec app rake db:test:prepare
+docker-compose exec app rails db:test:prepare
 docker-compose exec rspec
 ```
 
