@@ -37,7 +37,6 @@ RSpec.describe "/users" do
         expect do
           post users_url,
                params: { user: valid_attributes }, headers: valid_headers, as: :json
-          puts response.inspect
         end.to change(User, :count).by(1)
       end
 
